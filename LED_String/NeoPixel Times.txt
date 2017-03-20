@@ -1,0 +1,16 @@
+AdaFruit NeoPixel Library Times
+
+Writes 0s to 60 LEDs using the strip.clear() to clear the pixels:
+	clear()   72us, strip.show() 800us, Overall  872us
+
+Writes 0s to 60 LEDs using the byte for loop with strip.Color() outside loop:
+	for loop 516us, strip.show() 808us, Overall 1324us
+
+Writes 1s to 60 LEDs using the byte for loop with strip.Color() inside loop:
+	for loop 508us, strip.show() 816us, Overall 1324us
+
+Writes 0s to 60 LEDs using the int for loop with strip.Color() outside loop:
+	for loop 508us, strip.show() 808us, Overall 1316us
+
+Writes 1s to 60 LEDs using the int for loop with strip.Color() inside loop:
+	for loop 508us, strip.show() 816us, Overall 1324us
