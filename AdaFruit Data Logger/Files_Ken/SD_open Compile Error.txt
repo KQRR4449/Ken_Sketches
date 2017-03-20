@@ -1,0 +1,59 @@
+Arduino: 1.8.0 (Windows 10), Board: "Arduino/Genuino Uno"
+
+C:\Users\kenw\Documents\Arduino\Files_Ken\Files_Ken.ino: In function 'void setup()':
+
+Files_Ken:51: error: use of deleted function 'SDLib::File& SDLib::File::operator=(SDLib::File&&)'
+
+   myFile = SD.open("example.txt", FILE_WRITE);
+
+          ^
+
+In file included from C:\Users\kenw\Documents\Arduino\Files_Ken\Files_Ken.ino:21:0:
+
+C:\Users\kenw\Documents\Arduino\libraries\SD\src/SD.h:28:7: note: 'SDLib::File& SDLib::File::operator=(SDLib::File&&)' is implicitly deleted because the default definition would be ill-formed:
+
+ class File : public Stream {
+
+       ^
+
+C:\Users\kenw\Documents\Arduino\libraries\SD\src/SD.h:28:7: error: use of deleted function 'Stream& Stream::operator=(Stream&&)'
+
+In file included from C:\Users\kenw\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.6.17\cores\arduino/HardwareSerial.h:29:0,
+
+                 from C:\Users\kenw\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.6.17\cores\arduino/Arduino.h:232,
+
+                 from sketch\Files_Ken.ino.cpp:1:
+
+C:\Users\kenw\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.6.17\cores\arduino/Stream.h:49:7: note: 'Stream& Stream::operator=(Stream&&)' is implicitly deleted because the default definition would be ill-formed:
+
+ class Stream : public Print
+
+       ^
+
+C:\Users\kenw\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.6.17\cores\arduino/Stream.h:49:7: error: use of deleted function 'Print& Print::operator=(Print&&)'
+
+In file included from C:\Users\kenw\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.6.17\cores\arduino/Stream.h:26:0,
+
+                 from C:\Users\kenw\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.6.17\cores\arduino/HardwareSerial.h:29,
+
+                 from C:\Users\kenw\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.6.17\cores\arduino/Arduino.h:232,
+
+                 from sketch\Files_Ken.ino.cpp:1:
+
+C:\Users\kenw\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.6.17\cores\arduino/Print.h:34:7: note: 'Print& Print::operator=(Print&&)' is implicitly deleted because the default definition would be ill-formed:
+
+ class Print
+
+       ^
+
+C:\Users\kenw\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.6.17\cores\arduino/Print.h:34:7: error: non-static const member 'const size_t Print::PRINTF_BUF', can't use default assignment operator
+
+Multiple libraries were found for "SD.h"
+ Used: C:\Users\kenw\Documents\Arduino\libraries\SD
+ Not used: C:\Program Files (x86)\Arduino\libraries\SD
+exit status 1
+use of deleted function 'SDLib::File& SDLib::File::operator=(SDLib::File&&)'
+
+This report would have more information with
+"Show verbose output during compilation"
+option enabled in File -> Preferences.
