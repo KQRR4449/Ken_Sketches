@@ -31,7 +31,7 @@
 #endif
 
 const byte            VER_MAJOR     =                1; // Major version.
-const byte            VER_MINOR     =                1; // Minor version.
+const byte            VER_MINOR     =                2; // Minor version.
 const byte            INT_PIN       =                3; // 1 second interrupt input pin.
 const byte            INT_LEVEL     =             HIGH; // INT_PIN level to count.
 const byte            INT_MODE      =           RISING; // Interrupt mode.
@@ -80,13 +80,13 @@ bool                  SdOK          =           false;  // SD card plugged in.
 long                  Baseline      =              0L;  // Setting Baseline.
 long                  Delta         =              0L;  // Setting Delta.
 Offset_t              Off_t;                            // RTC offset.
+TimeSpan              MinBase;                          // Minimum baseline time for 1 second
+                                                        // change to be relevent.
 #ifdef DEBUG
 char                  TimeStamp[30];                    // File timestamp buffer.
 #endif // DEBUG
 
 void setup () {
-  TimeSpan            ts;                               // TimeSpan object.
-  
 #ifndef ESP8266
   while (!Serial); // for Leonardo/Micro/Zero
 #endif
@@ -151,15 +151,15 @@ void setup () {
    *  for adj = OFF_FACTOR[mode] * delta / baseline.
    *  base_min = OFF_FACTOR[mode] / delta or OFF_FACTOR[mode] / 1 for delta_min = 1;
    */ 
-  ts = OFF_FACTOR[Off_t.getMode()];
+  MinBase = OFF_FACTOR[Off_t.getMode()];
   Serial.printf(F("    Baseline minimum for 1 second Delta RTC offset mode %d:\n"),
                                                                   Off_t.getMode());
   Serial.printf(F("        %ld seconds or %d days %2d:%02d:%02d h:m:s.\n"),
-                                                      ts.totalseconds(),
-                                                      ts.days(),
-                                                      ts.hours(),
-                                                      ts.minutes(),
-                                                      ts.seconds());
+                                                      MinBase.totalseconds(),
+                                                      MinBase.days(),
+                                                      MinBase.hours(),
+                                                      MinBase.minutes(),
+                                                      MinBase.seconds());
 
   // Done writing header information to Serial. Print a dashed line.
   dashedLine(80);
@@ -250,6 +250,7 @@ void timerISR()
 void printTime(unsigned long secCnt, const DateTime &t) {
   long                rtcSecs       =   t.secondstime();  // Seconds since RTC start.
   TimeSpan            span          =   t - SetTime;      // Current timespan.
+  float               ratio;                              // Span to Baseline ratio.
 
   Serial.printf(F("Time %10s %2u/%2u/%4u  %2u:%02u:%02u seconds %12ld.\n"),
                                                           WEEK_DAYS[t.dayOfTheWeek()],
@@ -273,6 +274,11 @@ void printTime(unsigned long secCnt, const DateTime &t) {
                                                       span.hours(),
                                                       span.minutes(),
                                                       span.seconds());
+
+  Serial.print(F("    Set time span to minimum baseline ratio "));
+  ratio = (float)span.totalseconds() / (float)MinBase.totalseconds();
+  Serial << _FLOATW(ratio, 2, 7);
+  Serial.println(F("%."));
 }
 
 /*
