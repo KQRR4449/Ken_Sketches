@@ -275,9 +275,9 @@ void printTime(unsigned long secCnt, const DateTime &t) {
                                                       span.minutes(),
                                                       span.seconds());
 
-  Serial.print(F("    Set time span to minimum baseline ratio "));
-  ratio = (float)span.totalseconds() / (float)MinBase.totalseconds();
-  Serial << _FLOATW(ratio, 2, 7);
+  Serial.print(F("    Set time span to minimum baseline ratio percentage "));
+  ratio = ((float)span.totalseconds() * 100.0) / (float)MinBase.totalseconds();
+  Serial << _FLOATW(ratio, 0, 6);
   Serial.println(F("%."));
 }
 
