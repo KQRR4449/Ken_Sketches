@@ -641,7 +641,7 @@ void setFileTime(uint16_t* date, uint16_t* time) {
   // return time using FAT_TIME macro to format fields
   *time = FAT_TIME(now.hour(), now.minute(), now.second());
 }
-void dashedLine(byte cnt, char c = '-') {
+void dashedLine(byte cnt, char c) {
   while( cnt-- > 0) {
     Serial.write(c);
   }

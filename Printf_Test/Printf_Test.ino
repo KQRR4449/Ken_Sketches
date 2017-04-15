@@ -88,7 +88,7 @@ public:
       char      buf[PRINTF_LENGTH + 1];
       va_list   ap;
       va_start(ap, format);
-      #ifdef __AVR__
+      #if defined(__AVR__) || defined(ESP8266)
       rtn = vsnprintf_P(buf, sizeof(buf), (const char *)format, ap);  // progmem for AVR
       #else
       rtn = vsnprintf(buf, sizeof(buf), (const char *)format, ap);    // for the rest of the world
@@ -120,12 +120,16 @@ Printf_KGW          printfKGW;
 void setup() {
   int               rtn;                        // Return value.
   
-  Serial.begin(9600);
+  Serial.begin(115200);
+  #ifdef ESP8266
+  delay(100);
+  Serial.println();
+  #endif // ESP8266
   Serial.printf(F("Starting Printf_Test version %d.%d, Build date %s %s\n"),  VER_MAJOR,
-                                                                              VER_MINOR,
-                                                                              __DATE__,
-                                                                              __TIME__);
-  #ifdef PRINT_HAS_PRINTF
+                                                                                VER_MINOR,
+                                                                                __DATE__,
+                                                                                __TIME__);
+  #ifdef PRINT_HAS_PRINTF 
   Serial.printf(F("PRINT_HAS_PRINTF defined. Value %s.\n"),
                       PRINT_HAS_PRINTF ? "true" : "false");
   #endif // PRINT_HAS_PRINTF
