@@ -7,6 +7,37 @@
  ***********************************************************************************************
  */
 
+ #ifndef AVR
+ #ifdef F
+ #undef F
+ #endif // ifdef F
+ #define F
+ #endif // #ifndef AVR
+
+ /* Modify these lines in Print.cpp for ESP32 CPUs.
+     // Start emulate cooked mode. kgw
+    //write((uint8_t*)temp, len); // Original code.
+    for(char *p = &temp[0]; *p; p++) // emulate cooked mode for newlines
+    {
+      if(*p == '\n')
+        write('\r');
+      write(*p);
+    }
+    // End emulate cooked mode. kgw
+  */ // End of ESP32 modifications.
+
+ /* Modify these lines in Print.cpp for ESP8266 CPUs.
+     // Start emulate cooked mode. kgw
+    //len = write((uint8_t*)temp, len); // Original code.
+    for(char *p = &temp[0]; *p; p++) // emulate cooked mode for newlines
+    {
+      if(*p == '\n')
+        write('\r');
+      write(*p);
+    }
+    // End emulate cooked mode. kgw
+  */ // End of ESP8266 modifications.
+
 #ifdef BLOMP_ORIG
 #include <stdarg.h>
 #define PRINTF_BUF 80 // define the tmp buffer size (change if desired)
@@ -47,7 +78,9 @@
 #endif // BLOMP_ORIG
 
 // Uncomment next line to test local printf copy.
+#ifdef AVR
 #define BLOMP_KGW
+#endif // #ifdef AVR
 #ifdef  BLOMP_KGW
 class Printf_KGW : public Print
 {
@@ -132,8 +165,8 @@ void setup() {
   #ifdef PRINT_HAS_PRINTF 
   Serial.printf(F("PRINT_HAS_PRINTF defined. Value %s.\n"),
                       PRINT_HAS_PRINTF ? "true" : "false");
-  #endif // PRINT_HAS_PRINTF
   Serial.printf("PRINTF_LENGTH = %d\n", Print::PRINTF_LENGTH );
+  #endif // PRINT_HAS_PRINTF
 
   // Test local printf() copy.
   #ifdef BLOMP_KGW
