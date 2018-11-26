@@ -28,7 +28,7 @@ void dateTime(uint16_t* date, uint16_t* time) {
 //------------------------------------------------------------------------------
   void setup() {
  
-  Serial.begin(9600);
+  Serial.begin(115200);
   Wire.begin();
   if (!RTC.begin()) {
     Serial.println("RTC failed");
